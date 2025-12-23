@@ -1,0 +1,26 @@
+﻿<Window x:Class="TableApp.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TableApp"
+        mc:Ignorable="d" 
+        Height="350" Width="400" FontFamily="Times New Roman" 
+        FontSize="14" Title="Вход в систему">
+
+    <Grid Background="White">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
+            <TextBlock Text="Логин:" Margin="0,0,0,5" FontSize="12"/>
+            <TextBox x:Name="txtLogin" Margin="0,0,0,15" Height="25" VerticalContentAlignment="Center"/>
+
+            <TextBlock Text="Пароль:" Margin="0,0,0,5" FontSize="12"/>
+            <PasswordBox x:Name="txtPassword" Margin="0,0,0,25" Height="25" VerticalContentAlignment="Center"/>
+
+            <Button x:Name="btnLogin" Content="Войти" Click="Login_Click" 
+                    Background="#00FA9A" Height="30" Margin="0,0,0,10" HorizontalAlignment="Center" Width="100"/>
+
+            <Button x:Name="btnGuest" Content="Войти как гость" Click="GuestLogin_Click" 
+                    Height="30" HorizontalAlignment="Center" Width="100"/>
+        </StackPanel>
+    </Grid>
+</Window>
