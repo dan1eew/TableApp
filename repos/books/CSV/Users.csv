@@ -1,0 +1,14 @@
+﻿UserID;EmployeeRole;FullName;Login;Password
+1;Администратор;Кузнецов Илья Андреевич;admin1@bookshop.ru;Adm123
+2;Администратор;Соколова Анна Сергеевна;admin2@bookshop.ru;Adm234
+3;Администратор;Морозов Дмитрий Викторович;admin3@bookshop.ru;Adm345
+4;Менеджер;Степанов Михаил Артёмович;manager1@bookshop.ru;Mng123
+5;Менеджер;Ворсин Пётр Евгеньевич;manager2@bookshop.ru;Mng234
+6;Менеджер;Старикова Елена Павловна;manager3@bookshop.ru;Mng345
+7;Авторизированный клиент;Иванова Мария Олеговна;client1@bookshop.ru;Cli123
+8;Авторизированный клиент;Петров Алексей Николаевич;client2@bookshop.ru;Cli234
+9;Авторизированный клиент;Смирнова Ольга Владимировна;client3@bookshop.ru;Cli345
+10;Авторизированный клиент;Сазонов Руслан Германович;client4@bookshop.ru;Cli456
+11;Администратор;TestAdmin;ta;1
+11;Менеджер;TestManager;tm;1
+12;Авторизированный клиент;TestClient;tc;1

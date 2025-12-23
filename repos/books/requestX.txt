@@ -1,0 +1,128 @@
+CREATE DATABASE BookStoreDB17x;
+GO 
+
+USE BookStoreDB17x; 
+GO
+
+CREATE TABLE Books (
+    BookID INT IDENTITY PRIMARY KEY NOT NULL,
+    Code NVARCHAR(5) NOT NULL,
+    ProductName NVARCHAR(64) NOT NULL,
+    Unit NVARCHAR(5) NOT NULL,
+    Price DECIMAL(10,2) NOT NULL,
+    Supplier NVARCHAR(32) NOT NULL,
+    Producer NVARCHAR(32) NOT NULL,
+    Category NVARCHAR(32) NOT NULL,
+    CurrentDiscount INT NOT NULL,
+    QuantityInStock INT NOT NULL,
+    Description NVARCHAR(128) NOT NULL,
+    Photo NVARCHAR(32) NOT NULL
+);
+
+BULK INSERT Books 
+FROM 'C:\Users\danteew\Desktop\MA2 Book Store\CSV\Books.csv'
+WITH (
+    FIELDTERMINATOR = ';',
+    ROWTERMINATOR = '\n',
+    FIRSTROW = 2,
+    CODEPAGE = '65001'
+);
+
+CREATE TABLE Users (
+    UserID INT IDENTITY PRIMARY KEY NOT NULL,
+    EmployeeRole NVARCHAR(64) NOT NULL,
+    FullName NVARCHAR(64) NOT NULL,
+    Login NVARCHAR(64) NOT NULL,
+    Password NVARCHAR(64) NOT NULL
+);
+
+BULK INSERT Users
+FROM 'C:\Users\danteew\Desktop\MA2 Book Store\CSV\Users.csv'
+WITH (
+    FIELDTERMINATOR = ';',
+    ROWTERMINATOR = '\n',
+    FIRSTROW = 2,
+    CODEPAGE = '65001'
+);
+
+CREATE TABLE PickUpPoint (
+    PickUpPointID INT IDENTITY PRIMARY KEY NOT NULL,
+    IndexAdrees INT NOT NULL, 
+    City NVARCHAR(64) NOT NULL,
+    Street NVARCHAR(64) NOT NULL,
+    HouseNumber INT NOT NULL
+);
+
+
+BULK INSERT PickUpPoint 
+FROM 'C:\Users\danteew\Desktop\MA2 Book Store\CSV\Pick-up point.csv'
+WITH (
+    FIELDTERMINATOR = ';',
+    ROWTERMINATOR = '\n',
+    FIRSTROW = 2,
+    CODEPAGE = '65001'
+);
+
+CREATE TABLE Orders (
+    OrderID INT IDENTITY PRIMARY KEY NOT NULL,
+    OrderNumber INT NOT NULL,
+    OrderCode NVARCHAR(5) NOT NULL,
+    OrderDate DATETIME NOT NULL, 
+    DeliveryDate DATETIME NOT NULL,
+    HouseNumber INT NOT NULL,
+    FullNameСustomer NVARCHAR(128) NOT NULL,
+    CodeToReceive INT NOT NULL,
+    OrderStatus NVARCHAR(32) NOT NULL,
+    BookID INT NULL, 
+    PickUpPointID INT NULL,  
+    UserID INT NULL,  
+    Quantity INT NULL,  
+    TotalPrice DECIMAL(10,2) NULL,  
+    CONSTRAINT FK_Orders_Books FOREIGN KEY (BookID) REFERENCES Books(BookID),
+    CONSTRAINT FK_Orders_PickUpPoint FOREIGN KEY (PickUpPointID) REFERENCES PickUpPoint(PickUpPointID),
+    CONSTRAINT FK_Orders_Users FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+BULK INSERT Orders 
+FROM 'C:\Users\danteew\Desktop\MA2 Book Store\CSV\Orders.csv'
+WITH (
+    FIELDTERMINATOR = ';',
+    ROWTERMINATOR = '\n',
+    FIRSTROW = 2,
+    CODEPAGE = '65001'
+);
+
+-- UserID
+UPDATE o SET o.UserID = u.UserID 
+FROM Orders o
+JOIN Users u ON o.FullNameСustomer = u.FullName
+WHERE o.UserID IS NULL;
+
+-- BookID
+UPDATE o SET o.BookID = b.BookID 
+FROM Orders o
+JOIN Books b ON o.OrderCode = b.Code
+WHERE o.BookID IS NULL;
+
+-- PickUpPointID
+UPDATE o SET o.PickUpPointID = p.PickUpPointID 
+FROM Orders o
+JOIN PickUpPoint p ON o.HouseNumber = p.HouseNumber
+WHERE o.PickUpPointID IS NULL;
+
+-- Quantity
+UPDATE o SET o.Quantity = b.QuantityInStock
+FROM Orders o
+JOIN Books b ON o.OrderCode = b.Code
+WHERE o.Quantity IS NULL;
+
+-- TotalPrice
+UPDATE o SET o.TotalPrice = b.Price * o.Quantity
+FROM Orders o
+JOIN Books b ON o.BookID = b.BookID
+WHERE o.TotalPrice IS NULL OR o.TotalPrice = 0;
+
+select * from Users;
+select * from Orders;
+select * from PickUpPoint;
+select * from Books;
