@@ -59,6 +59,7 @@
     <Compile Include="TableProducts.xaml.cs">
       <DependentUpon>TableProducts.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TechnicaBlya.cs" />
     <Page Include="LoginWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

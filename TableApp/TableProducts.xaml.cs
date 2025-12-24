@@ -9,7 +9,7 @@ namespace TableApp
 {
     public partial class TableProducts : Window
     {
-        private readonly string connectionString = "Data Source=DanteewPC\\EQS_DB_HOME42;Initial Catalog=BookStoreDB17x;Integrated Security=True"; // тест с бд
+        private readonly string connectionString = "Data Source=DanteewPC\\EQS_DB_HOME42;Initial Catalog=CompTech;Integrated Security=True"; // тест с бд
 
         // public static string connectionString = "Data Source=(LocalDB)\\ИМЯ_ЛОКАЛКИ;AttachDbFilename=|DataDirectory|\\ИМЯ_БД.mdf;Integrated Security=True"; // локальная бд
 
@@ -49,13 +49,15 @@ namespace TableApp
         {
             HideAllButtons();
             btnMakeOrder.Visibility = Visibility.Visible;
+            btnProducts.Visibility = Visibility.Visible;
         }
 
         /// <summary>кнопки менеджера</summary>
         private void ShowOnlyManagerButtons()
         {
             HideAllButtons();
-            btnOrders.Visibility = Visibility.Visible;
+            btnProducts.Visibility = Visibility.Visible;
+            btnProducts.Visibility = Visibility.Visible;
         }
 
         /// <summary>кнопки админа</summary>
@@ -65,13 +67,14 @@ namespace TableApp
             btnEdit.Visibility = Visibility.Visible;
             btnDelete.Visibility = Visibility.Visible;
             btnOrdersAdmin.Visibility = Visibility.Visible;
+            btnProducts.Visibility = Visibility.Visible;
         }
 
         /// <summary>метод скрытия всех кнопок</summary>
         private void HideAllButtons()
         {
             btnMakeOrder.Visibility = Visibility.Collapsed;
-            btnOrders.Visibility = Visibility.Collapsed;
+            btnProducts.Visibility = Visibility.Collapsed;
             btnEdit.Visibility = Visibility.Collapsed;
             btnDelete.Visibility = Visibility.Collapsed;
             btnOrdersAdmin.Visibility = Visibility.Collapsed;
@@ -82,8 +85,38 @@ namespace TableApp
         {
             try
             {
-                string query = "SELECT * FROM Books"; // 2.
-                List<Book> books = new List<Book>(); // 3.
+                //string query = "SELECT * FROM Books"; // 2.
+                //List<Book> books = new List<Book>(); // 3.
+
+                //using (SqlConnection connection = new SqlConnection(connectionString))
+                //using (SqlCommand command = new SqlCommand(query, connection))
+                //{
+                //    connection.Open();
+                //    SqlDataReader reader = command.ExecuteReader();
+
+                //    while (reader.Read()) // цикл считывания данных с бд
+                //    {
+                //        books.Add(new Book // 4.
+                //        {
+                //            BookID = Convert.ToInt32(reader["BookID"]),
+                //            Code = reader["Code"].ToString(),
+                //            ProductName = reader["ProductName"].ToString(),
+                //            Unit = reader["Unit"].ToString(),
+                //            Price = Convert.ToDecimal(reader["Price"]),
+                //            Supplier = reader["Supplier"].ToString(),
+                //            Producer = reader["Producer"].ToString(),
+                //            Category = reader["Category"].ToString(),
+                //            CurrentDiscount = Convert.ToDecimal(reader["CurrentDiscount"]),
+                //            QuantityInStock = Convert.ToInt32(reader["QuantityInStock"]),
+                //            Description = reader["Description"].ToString(),
+                //            Photo = reader["Photo"].ToString()
+                //        });
+                //    }
+                //}
+                //booksGrid.ItemsSource = books; // 5.
+
+                string query = "SELECT * FROM Products"; // 2.
+                List<TechnicaBlya> products = new List<TechnicaBlya>(); // 3.
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -93,24 +126,22 @@ namespace TableApp
 
                     while (reader.Read()) // цикл считывания данных с бд
                     {
-                        books.Add(new Book // 4.
+                        products.Add(new TechnicaBlya // 4.
                         {
-                            BookID = Convert.ToInt32(reader["BookID"]),
-                            Code = reader["Code"].ToString(),
+                            ProductId = Convert.ToInt32(reader["ProductId"]),
                             ProductName = reader["ProductName"].ToString(),
-                            Unit = reader["Unit"].ToString(),
-                            Price = Convert.ToDecimal(reader["Price"]),
-                            Supplier = reader["Supplier"].ToString(),
-                            Producer = reader["Producer"].ToString(),
                             Category = reader["Category"].ToString(),
-                            CurrentDiscount = Convert.ToDecimal(reader["CurrentDiscount"]),
-                            QuantityInStock = Convert.ToInt32(reader["QuantityInStock"]),
                             Description = reader["Description"].ToString(),
+                            Manufacturer = reader["Manufacturer"].ToString(),
+                            Price = Convert.ToDecimal(reader["Price"]),
+                            Unit = reader["Unit"].ToString(),
+                            QuantityInStock = Convert.ToInt32(reader["QuantityInStock"]),
+                            Discount = Convert.ToInt32(reader["Discount"]),
                             Photo = reader["Photo"].ToString()
                         });
                     }
                 }
-                booksGrid.ItemsSource = books; // 5.
+                booksGrid.ItemsSource = products; // 5.
             }
             catch (Exception ex) // ошибка при загрузке
             {
@@ -119,17 +150,38 @@ namespace TableApp
         }
 
         /// <summary>устновка цвета строк</summary>
+        //private void booksGrid_LoadingRow(object sender, DataGridRowEventArgs e)
+        //{
+        //    if (e.Row.DataContext is Book book)
+        //    {
+        //        // Приоритет 1: Если количество = 0, то голубой цвет
+        //        if (book.QuantityInStock == 0)
+        //        {
+        //            e.Row.Background = Brushes.LightBlue;
+        //        }
+        //        // Приоритет 2: Если скидка > 15%, то темно-зеленый цвет
+        //        else if (book.CurrentDiscount > 15)
+        //        {
+        //            e.Row.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2E8B57"));
+        //        }
+        //        // Иначе белый фон
+        //        else
+        //        {
+        //            e.Row.Background = Brushes.White;
+        //        }
+        //    }
+        //}
         private void booksGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
-            if (e.Row.DataContext is Book book)
+            if (e.Row.DataContext is TechnicaBlya products)
             {
                 // Приоритет 1: Если количество = 0, то голубой цвет
-                if (book.QuantityInStock == 0)
+                if (products.QuantityInStock == 0)
                 {
                     e.Row.Background = Brushes.LightBlue;
                 }
                 // Приоритет 2: Если скидка > 15%, то темно-зеленый цвет
-                else if (book.CurrentDiscount > 15)
+                else if (products.Discount > 15)
                 {
                     e.Row.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2E8B57"));
                 }

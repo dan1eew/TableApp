@@ -6,8 +6,8 @@ namespace TableApp
 {
     public partial class LoginWindow : Window
     {
-        private readonly string connectionString = "Data Source=DanteewPC\\EQS_DB_HOME42;Initial Catalog=BookStoreDB17x;Integrated Security=True"; // тест с бд
-
+        // private readonly string connectionString = "Data Source=DanteewPC\\EQS_DB_HOME42;Initial Catalog=BookStoreDB17x;Integrated Security=True"; // тест с бд книга
+        private readonly string connectionString = "Data Source=DanteewPC\\EQS_DB_HOME42;Initial Catalog=CompTech;Integrated Security=True"; // тест с бд комп магазин
         // public static string connectionString = "Data Source=(LocalDB)\\ИМЯ_ЛОКАЛКИ;AttachDbFilename=|DataDirectory|\\ИМЯ_БД.mdf;Integrated Security=True"; // локальная бд
 
         // Обьявление строк, нужны для того что бы присвоить значение считанные с бд
